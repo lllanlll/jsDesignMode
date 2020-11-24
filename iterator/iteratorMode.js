@@ -40,14 +40,21 @@ const outerIterator = function() {
             return obj[cur];
         }
 
+        const getLen = function() {
+            return obj.length;
+        }
+
         return {
             next,
             isDone,
-            getCurItem
+            getCurItem,
+            getLen
         }
     }
 
     const compare = function(iterator1, iterator2) {
+
+        if(iterator1.getLen() !== iterator2.getLen()) throw new Error('not equal!');
         while(!iterator1.isDone() && !iterator2.isDone()) {
             if(iterator1.getCurItem() !== iterator2.getCurItem()) {
                 throw new Error('not equal!');
@@ -56,6 +63,7 @@ const outerIterator = function() {
             iterator2.next();
         }
         console.log('equal');
+
     }
 
     const iterator1 = Iterator([1, 2]);
@@ -64,3 +72,4 @@ const outerIterator = function() {
     compare(iterator1, iterator2);
 }
 
+outerIterator();

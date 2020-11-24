@@ -12,10 +12,15 @@
 const innerIterator = function() {
 
     const each = function(arr, callback) {
-        for(let i = 0, l = arr.length; i < l; i++) callback.call(arr[i], i, arr[i]);
+        for(let i = 0, l = arr.length; i < l; i++) {
+            
+            // 中止迭代
+            if(callback(i, arr[i]) === false) break;
+        }
     }
     
     each([1, 2, 3], function(i, n) {
+        if(n === 2) return false;
         console.log(i, n);
     })
 
@@ -72,4 +77,4 @@ const outerIterator = function() {
     compare(iterator1, iterator2);
 }
 
-outerIterator();
+innerIterator();

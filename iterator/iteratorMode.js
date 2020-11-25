@@ -9,18 +9,18 @@
  */
 
 // 实现一个内部迭代器（each）
-const innerIterator = function() {
+const innerIterator = function () {
 
-    const each = function(arr, callback) {
-        for(let i = 0, l = arr.length; i < l; i++) {
-            
+    const each = function (arr, callback) {
+        for (let i = 0, l = arr.length; i < l; i++) {
+
             // 中止迭代
-            if(callback(i, arr[i]) === false) break;
+            if (callback(i, arr[i]) === false) break;
         }
     }
-    
-    each([1, 2, 3], function(i, n) {
-        if(n === 2) return false;
+
+    each([1, 2, 3], function (i, n) {
+        if (n === 2) return false;
         console.log(i, n);
     })
 
@@ -28,24 +28,24 @@ const innerIterator = function() {
 
 
 // 外部迭代器 实现数组是否相等
-const outerIterator = function() {
+const outerIterator = function () {
 
-    const Iterator = function(obj) {
+    const Iterator = function (obj) {
         let cur = 0;
 
-        const next = function() {
+        const next = function () {
             cur++;
         }
 
-        const isDone = function() {
+        const isDone = function () {
             return cur > obj.length;
         }
 
-        const getCurItem = function() {
+        const getCurItem = function () {
             return obj[cur];
         }
 
-        const getLen = function() {
+        const getLen = function () {
             return obj.length;
         }
 
@@ -57,11 +57,11 @@ const outerIterator = function() {
         }
     }
 
-    const compare = function(iterator1, iterator2) {
+    const compare = function (iterator1, iterator2) {
 
-        if(iterator1.getLen() !== iterator2.getLen()) throw new Error('not equal!');
-        while(!iterator1.isDone() && !iterator2.isDone()) {
-            if(iterator1.getCurItem() !== iterator2.getCurItem()) {
+        if (iterator1.getLen() !== iterator2.getLen()) throw new Error('not equal!');
+        while (!iterator1.isDone() && !iterator2.isDone()) {
+            if (iterator1.getCurItem() !== iterator2.getCurItem()) {
                 throw new Error('not equal!');
             }
             iterator1.next();
@@ -77,4 +77,51 @@ const outerIterator = function() {
     compare(iterator1, iterator2);
 }
 
-innerIterator();
+// 实际应用迭代上传
+// 通过迭代而不是使用ifelse分支来判断
+const uploadIterator = function () {
+    
+    // IE 上传控件
+    const getActiveUploadObj = function () {
+        try {
+            return new ActiveXObject("TXFTNActiveX.FTNUpload");
+        } catch (e) {
+            return false;
+        }
+    };
+
+    // supportFlash 函数提供
+    const getFlashUploadObj = function () {
+        if (supportFlash()) { 
+            let str = '<object type="application/x-shockwave-flash"></object>';
+            return $(str).appendTo($('body'));
+        }
+        return false;
+    };
+
+    // 表单上传
+    const getFormUpladObj = function () {
+        const
+        let = '<input name="file" type="file" class="ui-file"/>'; 
+        return $(str).appendTo($('body'));
+    };
+
+    // 添加webkit控件上传时
+    const getWebkitUploadObj = function() {}
+
+    // 添加h5上传控件
+    const getH5UploadObj = function() {}
+
+    // 迭代器
+    const iteratorUploadObj = function () {
+        for (let i = 0, fn; fn = arguments[i++];) {
+            const uploadObj = fn();
+            if (uploadObj !== false) {
+                return uploadObj;
+            }
+        }
+    };
+
+    // 通过优先级加入迭代器
+    const uploadObj = iteratorUploadObj(getWebkitUploadObj, getH5UploadObj ,getActiveUploadObj, getFlashUploadObj, getFormUpladObj);
+}
